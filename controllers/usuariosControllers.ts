@@ -1,5 +1,5 @@
 import {Request,Response} from "express";
-import {usuarios,patentes} from "../data/db";
+import {db} from "../data/db";
 import { Usuario } from "../models/usuarios";
 
 //LOGICA DE LOS CONTROLLERS
@@ -9,6 +9,7 @@ export const getUsuarios = (req:Request, res:Response)=>{
     res.json(usuarios);
 }
 
+//post
 export const createUsuario = (req:Request, res:Response):void=>{
     const {nombre,apellido} = req.body;
     const nuevoUsuario: Usuario ={
@@ -20,6 +21,7 @@ export const createUsuario = (req:Request, res:Response):void=>{
     res.status(201).json(nuevoUsuario);
 }   
 
+//Delete
 export const deleteUsuario = (req:Request, res:Response): void=>{
     const idDelete= parseInt(req.params.id);
     const index =usuarios.findIndex((u)=> u.id === idDelete);

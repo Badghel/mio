@@ -1,25 +1,10 @@
-import { Usuario } from "../models/usuarios";
-import { Patentes } from "../models/patentes";
+import mysql from 'mysql2/promise';
 
-export const usuarios: Usuario[]= [
-    {
-    id:1,
-    nombre:"Luciano",
-    apellido: "Escalante"
-    },
-    {id:2,
-        nombre:"miguelon",
-        apellido: "angel",
-    },
-];
+export const db = mysql.createPool({
+    host:'localhost',
+    user: 'root',
+    password: '25310248nN',
+    database: 'mio',
+});
 
-export const patentes: Patentes[]=[
-    {
-    id:1,
-    dominio: "AB095GU"
-    },
-    {
-    id:2,
-    dominio: "NYF779",
-    }
-];
+
