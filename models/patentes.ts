@@ -1,5 +1,5 @@
 export interface Patentes{
     id:number,
-    dominio: string,
+    numero_patente: string,
     usuario_id: number,
 }
