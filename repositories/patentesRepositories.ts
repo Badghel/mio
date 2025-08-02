@@ -2,6 +2,9 @@ import { db } from "../data/db";
 import { Patentes } from "../models/patentes";
 import { ResultSetHeader} from "mysql2";
 
+//aca solo hablo con la base de datos por ej el getbyid traer de la db aca se llama
+
+
 //get
 export const getPatentes = async():Promise<Patentes[]>=>{
     const [rows] = await db.query("SELECT * FROM dominios");

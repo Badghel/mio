@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getPatentes,createPatentes,updatePatentes } from "../repositories/patentesRepositories";
-import { getUserById } from "../services/getUserById";
+import { addUser } from "../services/addUserServices";
+import { getUserById } from "../repositories/usuariosRepositories";
 
 //LOGICA CONTROLLER PATENTES
 

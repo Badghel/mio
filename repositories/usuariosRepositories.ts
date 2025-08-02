@@ -1,23 +1,33 @@
 import { db } from "../data/db";
 import { User } from "../models/usuarios";
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader,RowDataPacket } from "mysql2";
 
+//REPOSITORIO = ENGLOBA OPERACIONES CON LA BASE DE DATOS ADD/DELETE/PUT
 
 //get
-export const getUser = async ():Promise<User[]>=>{
+export const getUserAll = async ():Promise<User[]>=>{
     const [rows] = await db.query('SELECT * FROM usuarios');
     return rows as User[];
 }
+export const getUserById = async (id:number):Promise<User| null>=>{
+    const sql = "SELECT * FROM usuarios where id= ?";
+    const [rows] = await db.query<RowDataPacket[]>(sql,[id]);
+    if(rows.length ===0){
+        return null;
+    }
+    return rows[0] as User;
+}
 
-//create
-export const createUser = async (nombre:string,apellido:string):Promise<User>=>{
-    const [result] = await db.query<ResultSetHeader>('INSERT INTO usuarios(nombre,apellido) VALUES (?,?)',[nombre,apellido]);
+//add (reformulado)
+export const createUser = async(user:User):Promise<number>=>{
+    const [result] = await db.query<ResultSetHeader>('INSERT INTO usuarios(nombre,apellido) VALUES (?,?)',[user.nombre,user.apellido]);
     const insertId = result.insertId;
-    return {id:insertId,nombre,apellido};
+    return insertId;
 };
 //delete
-export const deleteUser = async (id:number):Promise<boolean>=>{
+export const deleteUser = async (id:number):Promise<number>=>{
     const [result] = await db.query<ResultSetHeader>('DELETE FROM usuarios where id= ?',[id]);
-    return result.affectedRows>0;
+    const resultId= result.affectedRows;
+    return resultId;
 }
 

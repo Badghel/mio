@@ -1,41 +1,29 @@
 import {Request,Response} from "express";
-import { getUser, createUser,deleteUser } from "../repositories/usuariosRepositories";
+import { getUserAll, createUser,deleteUser } from "../repositories/usuariosRepositories";
+import { addUser } from "../services/addUserServices";
+import { User } from "../models/usuarios";
+import { Result } from "../models/abstractions/result";
+import { deleteUserService } from "../services/deleteUserService";
 
 //LOGICA DE LOS CONTROLLERS
-
+//CONTROLLER= GESTIONA LAS RUTAS A QUE PARTE DE LA CAPA SERVICIO VAN
 //get
 export const getUserController = async (req:Request, res:Response)=>{
-    try{
-        const usuarios = await getUser();
-        res.json(usuarios);
-    }catch(error){
-        res.status(500).json({mensaje:"Error al obtener usuarios",error});
-
-    }
+    
 }
 
-//post
-export const createUserController = async(req:Request, res:Response)=>{
-    try{
-        const {nombre,apellido} = req.body; //Req = request
-        const newUser= await createUser(nombre,apellido);
-        res.status(201).json(newUser);
-    }catch(err){
-        res.status(500).json({mensaje: "Error al crear usuario"});
-    }
-}   
+//post (reformulado)
+export const addUserController = async (req: Request, res: Response) => {
+  const userData = req.body as User;
+  const result = await addUser(userData);
+  if(result.isFailure) return res.status(404).json({mensaje:result.errorMessage});
+  return res.status(200).json({mensaje: result.data});
+};
 
-//Delete
+//Delete (REFORMULADO POR MI LUCIANO ESCALANTE)
 export const deleteUserController = async(req:Request, res:Response)=>{
-   try{
         const id = Number(req.params.id);
-        const del = await deleteUser(id);
-        
-        if(!del){
-            return res.status(404).json({mensaje: "usuario no encontrado"});
-        }
-        res.status(201).json({mensaje: "Usuario eliminado"});
-   }catch(err){
-    res.status(500).json({mensaje: "Error al eliminar usuario"});
-   }
+        const del = await deleteUserService(id);
+        if(del.isFailure)return res.status(404).json({mensaje:del.errorMessage});
+        res.status(201).json({mensaje: del.data});
 }
