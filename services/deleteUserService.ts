@@ -1,4 +1,4 @@
-import { deleteUser } from "../repositories/usuariosRepositories";  
+import { deleteUser } from "../repositories/usersRepositories";  
 
 import { Result } from "../models/abstractions/result";
 

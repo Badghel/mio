@@ -1,4 +1,3 @@
-//crear clase que tenga un boolean true false
 //ESTA ABSTRACCION SE ENCARGA DE EL RESULTADO QUE VA A TENER LA OPERACION DEL SERVICIO 
 
 export class Result<T> {
